@@ -1,13 +1,21 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-export async function connectToDatabase() {
-    try{
-        await mongoose.connect('mongodb+srv://spider0:Spider%402025@spider0.a4mfg5t.mongodb.net/sample_mflix?retryWrites=true&w=majority');
+dotenv.config();
+const uri = process.env.MONGO_URI;
 
-        console.log('Connected to MongoDB');
+const connectDB = async () => {
+  try {
+    // Check if URI exists
+    if (!uri) {
+      throw new Error('MONGODB_URI is not defined in environment variables');
     }
-    catch(error){
-        console.error('Error connecting to MongoDB:', error);
-        process.exit(1);
-    }
-    }
+    await mongoose.connect(uri);
+    console.log('MongoDB connected successfully');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1); // Exit process with failure
+  }
+};
+
+export default connectDB;

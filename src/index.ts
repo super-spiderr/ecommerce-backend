@@ -1,22 +1,19 @@
-import fastify from "fastify";
-import { connectToDatabase } from "./db";
-import { movieRoutes } from "./routes/movieRoutes";
-import { homeRoutes } from "./routes/homeRoutes";
+import Fastify from 'fastify'
+import connectDB from './db';
+import userRoutes from './routes/userRoutes';
 
-const server = fastify({ logger: true });
-server.register(movieRoutes);
-server.register(homeRoutes);
+const app = Fastify();
+
 const start = async () => {
   try {
-    await connectToDatabase();
-
-    const address = await server.listen({ port: 3000 });
-    console.log(`🚀 Server listening on ${address}`);
-    
+    await connectDB();
+    await app.register(userRoutes);
+    await app.listen({ port: 3000 })
+    console.log('🚀 Server running at http://localhost:3000')
   } catch (err) {
-    console.error("❌ Failed to start server:", err);
-    process.exit(1);
+    console.error(err)
+    process.exit(1)
   }
-};
+}
 
 start();
