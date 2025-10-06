@@ -1,7 +1,10 @@
-import { FastifyInstance } from 'fastify';
-import { getUsers} from '../controllers/userController';
+import { FastifyInstance } from "fastify";
+import { createUser, getUsers } from "../controllers/userController";
 
 export default async function userRoutes(app: FastifyInstance) {
-   app.get('/', ()=>{return {message: 'Hello World'}});
-  app.get('/users', getUsers);
+  app.get("/", () => {
+    return { message: "Hello World" };
+  });
+  app.get("/users", getUsers);
+  app.post("/api/users", createUser);
 }

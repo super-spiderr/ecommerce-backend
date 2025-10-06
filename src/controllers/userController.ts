@@ -1,34 +1,50 @@
 import User from "../models/User";
 
-export const createUser = async (req: any, res: any) => {
+export const createUser = async (request: any, reply: any) => {
   try {
-    const { name, email, role } = req.body as {
-      name: string;
-      email: string;
-      role: string;
-    };
+    const {
+      name,
+      email,
+      authProvider,
+      firebaseUID,
+      isProfileComplete,
+      firstName,
+      lastName,
+      photoURL,
+      role,
+      isActive,
+    } = request.body;
 
-    const user = new User({ name, email, role });
+    const user = new User({
+      name,
+      email,
+      authProvider,
+      firebaseUID,
+      isProfileComplete,
+      firstName,
+      lastName,
+      photoURL,
+      role,
+      isActive,
+    });
+
     await user.save();
-
-    return res.send({ message: `User ${name} created`, user });
+    return reply.send({ message: `User ${name} created`, user });
   } catch (error: any) {
-    // Duplicate email error
     if (error.code === 11000 && error.keyPattern?.email) {
-      return res.status(400).send({ error: "Email already exists" });
+      return reply.status(400).send({ error: "Email already exists" });
     }
-
     console.error("Error creating user:", error);
-    return res.status(500).send({ error: "Failed to create user" });
+    return reply.status(500).send({ error: "Failed to create user" });
   }
 };
 
-export const getUsers = async (req: any, res: any) => {
+export const getUsers = async (request: any, reply: any) => {
   try {
     const users = await User.find();
-    return res.send({ users });
+    return reply.send({ users });
   } catch (error: any) {
     console.error("Error getting users:", error);
-    return res.status(500).send({ error: "Failed to get users" });
+    return reply.status(500).send({ error: "Failed to get users" });
   }
 };
