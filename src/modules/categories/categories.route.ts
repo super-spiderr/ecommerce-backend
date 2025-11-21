@@ -1,13 +1,13 @@
 import { FastifyInstance } from "fastify";
 import * as CategoryController from "./categories.controller";
 import {
-  createCategorySchema,
-  updateCategorySchema,
   categoryIdParamsSchema,
+  createCategorySchema,
   getCategoriesQuerySchema,
+  updateCategorySchema,
 } from "./categories.schema";
 
-export async function categoriesRoutes(fastify: FastifyInstance) {
+export async function CategoriesRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/categories",
     {
@@ -17,22 +17,20 @@ export async function categoriesRoutes(fastify: FastifyInstance) {
     },
     CategoryController.createCategoryHandler
   );
-
   fastify.get(
     "/categories",
     {
       schema: {
-        querystring: getCategoriesQuerySchema,
+        body: createCategorySchema,
       },
     },
     CategoryController.getCategoriesHandler
   );
-
   fastify.get(
-    "/categories/:id",
+    "/categories:/id",
     {
       schema: {
-        params: categoryIdParamsSchema,
+        body: getCategoriesQuerySchema,
       },
     },
     CategoryController.getCategoryByIdHandler
@@ -43,17 +41,15 @@ export async function categoriesRoutes(fastify: FastifyInstance) {
     {
       schema: {
         body: updateCategorySchema,
-        params: categoryIdParamsSchema,
       },
     },
     CategoryController.updateCategoryHandler
   );
-
   fastify.delete(
     "/categories/:id",
     {
       schema: {
-        params: categoryIdParamsSchema,
+        body: categoryIdParamsSchema,
       },
     },
     CategoryController.deleteCategoryHandler
