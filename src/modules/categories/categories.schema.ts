@@ -1,45 +1,31 @@
 import { z } from "zod";
 
-// ----------------------
-// Request Body Schemas
-// ----------------------
-// Create Category
+// --------------------
+// Body schemas
+// --------------------
 export const createCategorySchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
   isActive: z.boolean().optional(),
 });
 
-// Update Category
 export const updateCategorySchema = z.object({
-  name: z.string().min(1).optional(),
+  name: z.string().optional(),
   description: z.string().optional(),
   isActive: z.boolean().optional(),
 });
 
-// ----------------------
-// Params Schemas
-// ----------------------
-
-// Params for /categories/:id
+// --------------------
+// Params
+// --------------------
 export const categoryIdParamsSchema = z.object({
   id: z.string().min(1, "Category ID is required"),
 });
 
-// ----------------------
-// Query Schemas
-// ----------------------
-
-// Pagination: /categories?page=1&limit=10
+// --------------------
+// Query (for pagination)
+// --------------------
 export const getCategoriesQuerySchema = z.object({
-  page: z
-    .string()
-    .regex(/^\d+$/, "Page must be a number")
-    .optional()
-    .transform((val) => Number(val) || 1),
-  limit: z
-    .string()
-    .regex(/^\d+$/, "Limit must be a number")
-    .optional()
-    .transform((val) => Number(val) || 10),
+  page: z.coerce.number().optional().default(1),
+  limit: z.coerce.number().optional().default(10),
 });

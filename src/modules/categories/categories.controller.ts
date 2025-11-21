@@ -9,6 +9,9 @@ import {
 } from "./categories.schema";
 import { createAppError } from "../../common/errors/AppError";
 
+// --------------------
+// Create Category
+// --------------------
 export const createCategoryHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -22,6 +25,9 @@ export const createCategoryHandler = async (
   sendResponse(reply, category, "Category created successfully");
 };
 
+// --------------------
+// Get Categories
+// --------------------
 export const getCategoriesHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -31,16 +37,20 @@ export const getCategoriesHandler = async (
     throw createAppError(parsed.error.issues[0].message, 400);
   }
 
-  const { page = 1, limit = 10 } = parsed.data;
+  const { page, limit } = parsed.data;
   const { categories, total } = await CategoryService.getCategories(
     page,
     limit
   );
+
   sendResponse(reply, categories, "Categories fetched successfully", {
     meta: { total, page, limit },
   });
 };
 
+// --------------------
+// Get Category by ID
+// --------------------
 export const getCategoryByIdHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -54,6 +64,9 @@ export const getCategoryByIdHandler = async (
   sendResponse(reply, category, "Category fetched successfully");
 };
 
+// --------------------
+// Update Category
+// --------------------
 export const updateCategoryHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -75,6 +88,9 @@ export const updateCategoryHandler = async (
   sendResponse(reply, category, "Category updated successfully");
 };
 
+// --------------------
+// Delete Category
+// --------------------
 export const deleteCategoryHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
