@@ -9,9 +9,6 @@ import {
 } from "./categories.schema";
 import { createAppError } from "../../common/errors/AppError";
 
-// --------------------
-// Create Category
-// --------------------
 export const createCategoryHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -26,9 +23,6 @@ export const createCategoryHandler = async (
   sendResponse(reply, category, "Category created successfully");
 };
 
-// --------------------
-// Get Categories
-// --------------------
 export const getCategoriesHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -49,9 +43,6 @@ export const getCategoriesHandler = async (
   });
 };
 
-// --------------------
-// Get Category by ID
-// --------------------
 export const getCategoryByIdHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -65,9 +56,6 @@ export const getCategoryByIdHandler = async (
   sendResponse(reply, category, "Category fetched successfully");
 };
 
-// --------------------
-// Update Category
-// --------------------
 export const updateCategoryHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -89,9 +77,6 @@ export const updateCategoryHandler = async (
   sendResponse(reply, category, "Category updated successfully");
 };
 
-// --------------------
-// Delete Category
-// --------------------
 export const deleteCategoryHandler = async (
   req: FastifyRequest,
   reply: FastifyReply
