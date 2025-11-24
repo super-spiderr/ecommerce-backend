@@ -1,10 +1,15 @@
 import { FastifyInstance } from "fastify";
 import * as UserController from "./user.controller";
+import { adminGuard } from "../../middlewares/adminGuard";
 
 export async function userRoutes(fastify: FastifyInstance) {
   fastify.post("/users", UserController.createUserHandler);
 
-  fastify.get("/users", UserController.getUserHandler);
+  fastify.get(
+    "/users",
+    { preHandler: [adminGuard] },
+    UserController.getUserHandler
+  );
 
   fastify.get("/users/:id", UserController.getUserByIdHandler);
 

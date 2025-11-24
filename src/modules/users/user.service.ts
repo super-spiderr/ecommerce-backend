@@ -34,7 +34,11 @@ export const updateUser = async (id: string, data: Partial<IUser>) => {
 };
 
 export const deleteUser = async (id: string) => {
-  const user = await User.findByIdAndUpdate(id, { isActive: false });
+  const user = await User.findByIdAndUpdate(
+    id,
+    { isActive: false },
+    { new: true }
+  );
 
   if (!user) throw createAppError("User not found", 404);
 
