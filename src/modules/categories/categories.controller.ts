@@ -22,6 +22,7 @@ export const createCategoryHandler = async (
   }
 
   const category = await CategoryService.createCategory(parsed.data);
+
   sendResponse(reply, category, "Category created successfully");
 };
 
@@ -38,11 +39,11 @@ export const getCategoriesHandler = async (
   }
 
   const { page, limit } = parsed.data;
+
   const { categories, total } = await CategoryService.getCategories(
     page,
     limit
   );
-
   sendResponse(reply, categories, "Categories fetched successfully", {
     meta: { total, page, limit },
   });

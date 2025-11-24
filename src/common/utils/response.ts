@@ -16,7 +16,7 @@ export const sendResponse = <T>(
     data,
   };
   if (options?.meta) {
-    response.data = options.meta;
+    response.meta = options.meta;
   }
   return reply.send(response);
 };

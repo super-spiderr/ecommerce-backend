@@ -20,11 +20,8 @@ export const getCategoryById = async (id: string) => {
 
 export const getCategories = async (page = 1, limit = 10) => {
   const skip = (page - 1) * limit;
-  const total = await Category.countDocuments({ isActive: true });
-
-  const categories = await Category.find({ isActive: true })
-    .skip(skip)
-    .limit(limit);
+  const categories = await Category.find().skip(skip).limit(limit); // <- await
+  const total = await Category.countDocuments();
 
   return { categories, total, page, limit };
 };
