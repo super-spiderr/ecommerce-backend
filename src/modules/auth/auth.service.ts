@@ -7,8 +7,11 @@ import admin from "../../config/firebase";
 
 export const loginWithFirebase = async (idToken: string) => {
   const decoded = await admin.auth().verifyIdToken(idToken);
+  console.log(decoded);
   const firebaseUid = decoded.uid;
-
+  const name = decoded.name || decoded.email?.split("@")[0] || "User";
+  const [firstName, ...lastNameParts] = name.split(" ");
+  const lastName = lastNameParts.join(" ");
   let user = await User.findOne({ firebaseUid });
 
   if (user) {
@@ -19,10 +22,11 @@ export const loginWithFirebase = async (idToken: string) => {
       firebaseUid,
       email: decoded.email,
       emailVerified: decoded.email_verified,
-      firstName: decoded.name || "",
-      lastName: "",
+      firstName: firstName || "User",
+      lastName: lastName || "",
       phone: decoded.phone_number || "",
       lastLoginAt: new Date(),
+      authProvider: decoded.firebase.sign_in_provider,
     });
   }
 
