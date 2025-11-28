@@ -26,7 +26,6 @@ export const loginWithFirebase = async (idToken: string) => {
     });
   }
 
-  // 5️⃣ Generate backend tokens
   const accessToken = createAccessToken({
     userId: user._id,
     role: user.role,
